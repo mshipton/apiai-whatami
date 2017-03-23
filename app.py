@@ -20,6 +20,13 @@ app = Flask(__name__)
 
 pound = u'\u00A3'
 
+animals = {
+    'dog': {
+        'covering': 'hair',
+        'legs': 4
+    }
+}
+
 @app.route('/webhook', methods=['POST'])
 def webhook():
     req = request.get_json(silent=True, force=True)
@@ -28,7 +35,9 @@ def webhook():
     print(json.dumps(req, indent=4))
 
     action = req.get("result").get("action")
-    if action == "whatAmICovering":
+    if action == "start":
+        res = processStart(req)
+    elif action == "whatAmICovering":
         res = processWhatAmICoveringRequest(req)        
     else:
         return
@@ -39,12 +48,21 @@ def webhook():
     r.headers['Content-Type'] = 'application/json'
     return r
 
+def processStart(req):
+    contextOut = [{"name":"whatami", "lifespan":3, "parameters":{"answer": "dog"}}]
+    return makeContextResponse(contextOut)
+
 def processWhatAmICoveringRequest(req):
     covering = req.get("result").get("parameters").get("covering")
     
     text = "<speak>I am covered in " + covering + ' <audio src="https://www.partnersinrhyme.com/files/sounds1/WAV/sports/baseball/Ball_Hit_Cheer.wav">Moo!</audio></speak>'
     return makeSpeechResponse(text)
 
+def makeContextResponse(contextOut=[]):
+    return {
+        "contextOut": contextOut,
+        "source": "apiai-webhook"
+    }
 
 def makeSpeechResponse(speech, contextOut=[]):
     return {
