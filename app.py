@@ -95,7 +95,7 @@ def webhook():
 def processStart(req):
     text = "I'm am animal, guess what I am!"
     animal = random.choice(animals)
-    contextOut = {"name":"whatami", "lifespan":3, "parameters":{"answer": animal.name}}
+    contextOut = [{"name":"whatami", "lifespan":3, "parameters":{"answer": animal.name}}]
     return makeSpeechResponse(text, contextOut)
 
 def processCovering(req, animal):
@@ -106,12 +106,6 @@ def processCovering(req, animal):
     else:
         text = "I am not covered in " + covering
     return makeSpeechResponse(text)
-
-def makeContextResponse(contextOut=[]):
-    return {
-        "contextOut": contextOut,
-        "source": "apiai-webhook"
-    }
 
 def makeSpeechResponse(speech, contextOut=[]):
     return {
