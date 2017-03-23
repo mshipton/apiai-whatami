@@ -1,0 +1,54 @@
+[
+    {
+        "dog": {
+            "covering": "hair",
+            "legs": 4,
+            "places": ["house", "inside", "farm"],
+            "food": ["meat"],
+            "hints": ["I am your best friend.", "I have a tail.", "I protect you."]
+        }
+    }, {
+        "duck": {
+            "covering": "feathers",
+            "legs": 2,
+            "places": ["outside", "farm", "pond"],
+            "hints": ["I like bread!", "I'm waterproof"]            
+        }
+    }, {
+        "spider": {
+            "covering": "hair",
+            "legs": 8,
+            "places": ["house", "inside", "outside", "jungle", "desert"],
+            "hints": ["I have a lot of eyes!"]            
+        }
+    }, {
+        "cow": {
+            "covering": "hair",
+            "legs": 4,
+            "places": ["farm", "field", "shed", "barn"],
+            "hints": ["You can milk me"]
+        }
+    }, {
+        "sheep": {
+            "covering": "wool",
+            "legs": 4,
+            "places": ["farm", "field", "shed", "barn"],
+            "hints": ["I useful for making jumpers"]
+        }
+    }, {
+        "lion": {
+            "covering": "fur",
+            "legs": 4,
+            "places": ["africa", "plains", "forest"],
+            "hints": ["I'm king of the beasts"]
+        }
+    }, {
+        "shark": {
+            "covering": "skin",
+            "legs": 0,
+            "places": ["sea", "underwater", "ocean"],
+            "hints": ["Don't go into the water when I'm around"]
+        }
+    },
+
+]
