@@ -44,8 +44,11 @@ class Animal(object):
     def checkGuess(self, input_guess):
         return input_guess == self.name
 
+    def getHint(self):
+        return random.choice(self.properties['hints'])
+
 animals = []
-animals.append(Animal("dog", 
+animals.append(Animal("dog",
         {
             "covering": "hair",
             "legs": 4,
@@ -53,7 +56,12 @@ animals.append(Animal("dog",
             "food": ["meat"],
             "hints": ["I am your best friend.", "I have a tail.", "I protect you."]
         }))
-animals.append(Animal("duck", {"covering": "feathers", "legs": 2}))
+animals.append(Animal("duck",
+        {
+            "covering": "feathers",
+            "legs": 2,
+            "hints": ["I like bread!", "I'm waterproof"]
+        }))
 
 
 def findAnimal(context):
@@ -90,7 +98,9 @@ def webhook():
     elif action == "legs":
         res = processLegs(req, animal)
     elif action == "guessAnswer":
-        res = processGuessAnswer(req, animal)        
+        res = processGuessAnswer(req, animal)
+    elif action == "hint":
+        res = processHint(req, animal)
     else:
         return
 
@@ -142,6 +152,9 @@ def processGuessAnswer(req, animal):
     else:
         text = "No, I'm not a {} :(. Try again!".format(guess)
     return makeSpeechResponse(text)    
+
+def processHint(req, animal):
+    return animal.getHint()
 
 def makeSpeechResponse(speech, contextOut=[]):
     return {
