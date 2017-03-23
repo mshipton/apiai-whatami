@@ -56,6 +56,7 @@ def findAnimal(context):
 
 
 def getContext(req, input_name):
+    logger.debug("Getting context")
     for context in req['result']['contexts']:
         if context['name'] == input_name:
             return context
@@ -73,6 +74,7 @@ def webhook():
     action = req.get("result").get("action")
     logger.debug("Action = {}".format(action))
     animal = findAnimal(context) if action != "start" else None
+    logger.debug("Animal = {}".format(animal))
 
     if action == "start":
         res = processStart(req)
@@ -116,8 +118,11 @@ def processLegs(req, animal):
     return makeSpeechResponse(text)
 
 def processGuessAnswer(req, animal):
+    logger.debug("Processing guessAnswer")
     guess = req.get("result").get("parameters").get("guess")
-    is_correct = animal.checkGuess(guess)      
+    logger.debug("Guess = {}".format(guess))
+    is_correct = animal.checkGuess(guess)   
+    logger.debug("Guess is correct = {}".format(is_correct))   
     if is_correct:
         text = "You're right! I am a {}! Do you want to play again?".format(guess)
     else:
