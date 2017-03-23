@@ -112,16 +112,22 @@ def processCovering(req, animal):
     if is_correct:
         text = "I am covered in " + covering
     else:
-        text = "I am not covered in " + covering
+        if len(covering) == 0:
+            text = "You have to guess what I'm covered in"
+        else:
+            text = "I am not covered in " + covering
     return makeSpeechResponse(text)
 
 def processLegs(req, animal):
-    legs = int(req.get("result").get("parameters").get("legs"))
+    legs = req.get("result").get("parameters").get("legs")
     is_correct = animal.checkLegs(legs)      
     if is_correct:
         text = "I do have {} legs".format(legs)
     else:
-        text = "I do not have {} legs".format(legs)
+        if len(legs) == 0:
+            text = "You have to guess how many legs I have"
+        else:
+            text = "I do not have {} legs".format(legs)
     return makeSpeechResponse(text)
 
 def processGuessAnswer(req, animal):
@@ -132,7 +138,7 @@ def processGuessAnswer(req, animal):
     logger.debug("Guess is correct = {}".format(is_correct))   
     if is_correct:
         sound = '<audio src="https://orsilus.com/test/whatami/{}.mp3" />'.format(guess)
-        text = "<speak>You're right! I am a {}!{} Do you want to play again?</speak>".format(guess, sound)
+        text = "<speak>You're right! I am a {}!{} <break time='1s'/> Do you want to play again?</speak>".format(guess, sound)
     else:
         text = "No, I'm not a {} :(. Try again!".format(guess)
     return makeSpeechResponse(text)    
