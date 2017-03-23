@@ -45,7 +45,14 @@ class Animal(object):
         return input_guess == self.name
 
 animals = []
-animals.append(Animal("dog", {"covering": "hair", "legs": 4}))
+animals.append(Animal("dog", 
+        {
+            "covering": "hair",
+            "legs": 4,
+            "places": ["house"],
+            "food": ["meat"],
+            "hints": ["I am your best friend.", "I have a tail.", "I protect you."]
+        }))
 animals.append(Animal("duck", {"covering": "feathers", "legs": 2}))
 
 
@@ -124,7 +131,8 @@ def processGuessAnswer(req, animal):
     is_correct = animal.checkGuess(guess)   
     logger.debug("Guess is correct = {}".format(is_correct))   
     if is_correct:
-        text = "You're right! I am a {}! Do you want to play again?".format(guess)
+        sound = '<audio src="https://orsilus.com/test/whatami/{}.mp3" />'.format(guess)
+        text = "<speak>You're right! I am a {}!{} Do you want to play again?</speak>".format(guess, sound)
     else:
         text = "No, I'm not a {} :(. Try again!".format(guess)
     return makeSpeechResponse(text)    
