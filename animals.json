@@ -49,6 +49,5 @@
             "places": ["sea", "underwater", "ocean"],
             "hints": ["Don't go into the water when I'm around"]
         }
-    },
-
+    }
 ]

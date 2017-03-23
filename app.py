@@ -28,7 +28,6 @@ args = parser.parse_args()
 logging.basicConfig(level=logging.DEBUG if args.verbose else logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-pound = u'\u00A3'
 
 class Animal(object):
     def __init__(self, name, properties):
@@ -48,40 +47,13 @@ class Animal(object):
         return input_guess == self.name
 
     def getHint(self):
-        logger.debug("Giving a random hint")
         return random.choice(self.properties['hints'])
 
-animals = []
-animals.append(Animal("dog",
-        {
-            "covering": "hair",
-            "legs": 4,
-            "places": ["house", "inside", "farm"],
-            "food": ["meat"],
-            "hints": ["I am your best friend.", "I have a tail.", "I protect you."]
-        }))
-animals.append(Animal("duck",
-        {
-            "covering": "feathers",
-            "legs": 2,
-            "places": ["outside", "farm", "pond"],
-            "hints": ["I like bread!", "I'm waterproof"]
-        }))
-animals.append(Animal("spider",
-        {
-            "covering": "hair",
-            "legs": 8,
-            "places": ["house", "inside", "outside", "jungle", "desert"],
-            "hints": ["I have a lot of eyes!"]
-        }))
-animals.append(Animal("cow",
-        {
-            "covering": "hair",
-            "legs": 4,
-            "places": ["farm", "field", "shed", "barn"],
-            "hints": ["You can milk me"]
-        }))
+import json
 
+with open("animals.json", "r") as f:
+    data = json.load(f)[0]
+    animals = [Animal(key, value) for key, value in data.items()]
 
 def findAnimal(context):
     logger.debug("Finding animal...")
@@ -101,9 +73,10 @@ def getContext(req, input_name):
 def webhook():
     req = request.get_json(silent=True, force=True)
     context = getContext(req, "whatami")
+    logger.debug("Context received")
 
-    logger.debug("Request:")
-    logger.debug(json.dumps(req, indent=4))
+    # logger.debug("Request:")
+    # logger.debug(json.dumps(req, indent=4))
 
     action = req.get("result").get("action")
     logger.debug("Action = {}".format(action))
@@ -125,21 +98,27 @@ def webhook():
     else:
         logger.warning("Unknown action")
         return None
+    logger.debug("Fulfilled intents")
 
     res = json.dumps(res, indent=4)
     # print(res)
+    logger.debug("Response json dumped")
     r = make_response(res)
+    logger.debug("Making final json response")
     r.headers['Content-Type'] = 'application/json'
     return r
 
 def processStart(req):
     text = "I'm am animal, guess what I am!"
     animal = random.choice(animals)
+    logger.debug("Random animal chosen: {}".format(animal))
     contextOut = [{"name":"whatami", "lifespan":3, "parameters":{"answer": animal.name}}]
     return makeSpeechResponse(text, contextOut)
 
 def processCovering(req, animal):
+    logger.debug("Processing processCovering")
     covering = req.get("result").get("parameters").get("covering")
+    logger.debug("Input covering = {}".format(covering))
     is_correct = animal.checkCovering(covering)      
     if is_correct:
         text = "I am covered in " + covering
@@ -151,7 +130,9 @@ def processCovering(req, animal):
     return makeSpeechResponse(text)
 
 def processGuessPlace(req, animal):
+    logger.debug("Processing processGuessPlace")
     place = req.get("result").get("parameters").get("place")
+    logger.debug("Input place = {}".format(place))
     is_correct = animal.checkPlace(place)      
     if is_correct:
         text = "Yes I do"
@@ -163,7 +144,9 @@ def processGuessPlace(req, animal):
     return makeSpeechResponse(text)    
 
 def processLegs(req, animal):
+    logger.debug("Processing processLegs")
     legs = req.get("result").get("parameters").get("legs")
+    logger.debug("Input legs = {}".format(legs))
     is_correct = animal.checkLegs(int(legs)) if len(legs) > 0 else False
     if is_correct:
         text = "I do have {} legs".format(legs)
@@ -190,7 +173,9 @@ def processGuessAnswer(req, animal):
     return makeSpeechResponse(text, contextOut)
 
 def processHint(req, animal):
+    logger.debug("Grabbing a hint")
     hint = animal.getHint()
+    logger.debug("Giving hint: {}".format(hint))
     return makeSpeechResponse(hint) 
 
 def makeSpeechResponse(speech, contextOut=[]):
