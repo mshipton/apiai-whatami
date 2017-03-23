@@ -95,7 +95,7 @@ def webhook():
 
     action = req.get("result").get("action")
     logger.debug("Action = {}".format(action))
-    animal = findAnimal(context) if action != "start" else None
+    animal = findAnimal(context) if action != "start" and != "restart" else None
     logger.debug("Animal = {}".format(animal))
 
     if action == "start" or action == "restart":
