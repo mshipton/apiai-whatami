@@ -49,8 +49,10 @@ def webhook():
     return r
 
 def processStart(req):
+    text = "I'm am animal, guess what I am!"
+
     contextOut = [{"name":"whatami", "lifespan":3, "parameters":{"answer": "dog"}}]
-    return makeContextResponse(contextOut)
+    return makeSpeechResponse(text, contextOut)
 
 def processWhatAmICoveringRequest(req):
     covering = req.get("result").get("parameters").get("covering")
