@@ -63,6 +63,12 @@ animals.append(Animal("duck",
             "legs": 2,
             "hints": ["I like bread!", "I'm waterproof"]
         }))
+animals.append(Animal("fish",
+        {
+            "covering": "scales",
+            "legs": 0,
+            "hints": ["I swim all day!"]
+        }))
 
 
 def findAnimal(context):
@@ -92,7 +98,7 @@ def webhook():
     animal = findAnimal(context) if action != "start" else None
     logger.debug("Animal = {}".format(animal))
 
-    if action == "start":
+    if action == "start" or action == "restart":
         res = processStart(req)
     elif action == "covering":
         res = processCovering(req, animal)        
