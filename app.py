@@ -42,7 +42,7 @@ def webhook():
 def processWhatAmICoveringRequest(req):
     covering = req.get("result").get("parameters").get("covering")
     
-    text = "<speak>I am covered in " + covering + '<audio src="http://www.animal-sounds.org/farm/Cow%20animals055.wav">Moo!</audio></speak>'
+    text = "<speak>I am covered in " + covering + ' <audio src="https://www.partnersinrhyme.com/files/sounds1/WAV/sports/baseball/Ball_Hit_Cheer.wav">Moo!</audio></speak>'
     return makeSpeechResponse(text)
 
 
