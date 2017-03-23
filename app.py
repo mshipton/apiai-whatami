@@ -38,6 +38,9 @@ class Animal(object):
     def checkCovering(self, input_covering):
         return input_covering == self.properties['covering']
 
+    def checkPlace(self, input_place):
+        return input_place in self.properties['places']
+
     def checkLegs(self, input_legs):
         return input_legs == self.properties['legs']
 
@@ -53,7 +56,7 @@ animals.append(Animal("dog",
         {
             "covering": "hair",
             "legs": 4,
-            "places": ["house"],
+            "places": ["house", "inside", "farm"],
             "food": ["meat"],
             "hints": ["I am your best friend.", "I have a tail.", "I protect you."]
         }))
@@ -61,12 +64,14 @@ animals.append(Animal("duck",
         {
             "covering": "feathers",
             "legs": 2,
+            "places": ["outside", "farm", "pond"],
             "hints": ["I like bread!", "I'm waterproof"]
         }))
 animals.append(Animal("spider",
         {
             "covering": "hair",
             "legs": 8,
+            "places": ["house", "inside", "outside", "jungle", "desert"],
             "hints": ["I have a lot of eyes!"]
         }))
 
@@ -101,7 +106,9 @@ def webhook():
     if action == "start" or action == "restart":
         res = processStart(req)
     elif action == "covering":
-        res = processCovering(req, animal)        
+        res = processCovering(req, animal)
+    elif action == "guessPlace":
+        res = processGuessPlace(req, animal)                
     elif action == "legs":
         res = processLegs(req, animal)
     elif action == "guessAnswer":
@@ -135,6 +142,18 @@ def processCovering(req, animal):
         else:
             text = "I am not covered in " + covering
     return makeSpeechResponse(text)
+
+def processGuessPlace(req, animal):
+    place = req.get("result").get("parameters").get("place")
+    is_correct = animal.checkPlace(place)      
+    if is_correct:
+        text = "Yes I do"
+    else:
+        if len(place) == 0:
+            text = "You have to guess where I can be found"
+        else:
+            text = "No I don't"
+    return makeSpeechResponse(text)    
 
 def processLegs(req, animal):
     legs = req.get("result").get("parameters").get("legs")
