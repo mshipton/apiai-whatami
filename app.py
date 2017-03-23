@@ -72,8 +72,8 @@ def webhook():
     req = request.get_json(silent=True, force=True)
     context = getContext(req, "whatami")
 
-    logger.debug("Request:")
-    logger.debug(json.dumps(req, indent=4))
+    print("Request:")
+    print(json.dumps(req, indent=4))
 
     action = req.get("result").get("action")
     logger.debug("Action = {}".format(action))
