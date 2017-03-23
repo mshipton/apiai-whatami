@@ -20,12 +20,6 @@ app = Flask(__name__)
 
 pound = u'\u00A3'
 
-animals = {
-    "dog" {
-        covering:
-    }
-}
-
 @app.route('/webhook', methods=['POST'])
 def webhook():
     req = request.get_json(silent=True, force=True)
