@@ -63,11 +63,11 @@ animals.append(Animal("duck",
             "legs": 2,
             "hints": ["I like bread!", "I'm waterproof"]
         }))
-animals.append(Animal("fish",
+animals.append(Animal("spider",
         {
-            "covering": "scales",
-            "legs": 0,
-            "hints": ["I swim all day!"]
+            "covering": "hair",
+            "legs": 8,
+            "hints": ["I have a lot of eyes!"]
         }))
 
 
