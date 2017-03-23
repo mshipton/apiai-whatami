@@ -132,7 +132,7 @@ def processCovering(req, animal):
 
 def processLegs(req, animal):
     legs = req.get("result").get("parameters").get("legs")
-    is_correct = animal.checkLegs(legs)      
+    is_correct = animal.checkLegs(int(legs)) if len(legs) > 0 else False
     if is_correct:
         text = "I do have {} legs".format(legs)
     else:
