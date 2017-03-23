@@ -74,6 +74,13 @@ animals.append(Animal("spider",
             "places": ["house", "inside", "outside", "jungle", "desert"],
             "hints": ["I have a lot of eyes!"]
         }))
+animals.append(Animal("cow",
+        {
+            "covering": "hair",
+            "legs": 4,
+            "places": ["farm", "field", "shed", "barn"],
+            "hints": ["You can milk me"]
+        }))
 
 
 def findAnimal(context):
