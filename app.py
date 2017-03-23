@@ -29,7 +29,7 @@ def webhook():
     print(json.dumps(req, indent=4))
 
     action = req.get("result").get("action")
-        if action == "whatAmICovering":
+    if action == "whatAmICovering":
         res = processWhatAmICoveringRequest(req)        
     else:
         return
