@@ -22,21 +22,13 @@ from flask import make_response
 app = Flask(__name__)
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-v', '--verbose', help="Be verbose", action="store_const",
-                    dest="loglevel", const=logging.DEBUG)
+parser.add_argument('-v', '--verbose', help="Be verbose", action="store_true",
+                    dest="verbose")
 args = parser.parse_args()
-logging.basicConfig(level=args.loglevel if args.loglevel else logging.INFO)
+logging.basicConfig(level=logging.DEBUG if args.verbose else logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 pound = u'\u00A3'
-
-animals = {
-    'dog': {
-        'covering': 'hair',
-        'legs': 4
-    }
-}
-
 
 class Animal(object):
     def __init__(self, name, properties):
@@ -45,6 +37,9 @@ class Animal(object):
 
     def checkCovering(self, input_covering):
         return input_covering == self.properties['covering']
+
+    def checkLegs(self, input_legs):
+        return input_legs == self.properties['legs']
 
     def finalGuess(self, input_guess):
         return input_guess == self.name
@@ -72,8 +67,8 @@ def webhook():
     req = request.get_json(silent=True, force=True)
     context = getContext(req, "whatami")
 
-    print("Request:")
-    print(json.dumps(req, indent=4))
+    logger.debug("Request:")
+    logger.debug(json.dumps(req, indent=4))
 
     action = req.get("result").get("action")
     logger.debug("Action = {}".format(action))
@@ -83,6 +78,8 @@ def webhook():
         res = processStart(req)
     elif action == "covering":
         res = processCovering(req, animal)        
+    elif action == "legs":
+        res = processLegs(req, animal)
     else:
         return
 
@@ -107,6 +104,15 @@ def processCovering(req, animal):
         text = "I am not covered in " + covering
     return makeSpeechResponse(text)
 
+def processLegs(req, animal):
+    legs = int(req.get("result").get("parameters").get("legs"))
+    is_correct = animal.checkLegs(legs)      
+    if is_correct:
+        text = "I do have {} legs".format(legs)
+    else:
+        text = "I do not have {} legs".format(legs)
+    return makeSpeechResponse(text)
+
 def makeSpeechResponse(speech, contextOut=[]):
     return {
         "speech": speech,
@@ -120,4 +126,4 @@ if __name__ == '__main__':
 
     print("Starting app on port %d" % port)
 
-    app.run(debug=False, port=port, host='0.0.0.0')
+    app.run(debug=args.verbose, port=port, host='0.0.0.0')
