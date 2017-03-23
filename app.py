@@ -20,6 +20,12 @@ app = Flask(__name__)
 
 pound = u'\u00A3'
 
+animals = {
+    "dog" {
+        covering:
+    }
+}
+
 @app.route('/webhook', methods=['POST'])
 def webhook():
     req = request.get_json(silent=True, force=True)
@@ -40,7 +46,9 @@ def webhook():
     return r
 
 def processWhatAmICoveringRequest(req):
-    text = "I am covered in " + req.get("result").get("parameters").get("covering")
+    covering = req.get("result").get("parameters").get("covering")
+    
+    text = '<speak>I am covered in " + covering + "<audio src="http://www.animal-sounds.org/farm/Cow%20animals055.wav"/></speak>'
     return makeSpeechResponse(text)
 
 
