@@ -11,6 +11,8 @@ from urllib.error import HTTPError
 import json
 import os
 import random
+import logging
+import argparse
 
 from flask import Flask
 from flask import request
@@ -18,6 +20,13 @@ from flask import make_response
 
 # Flask app should start in global layout
 app = Flask(__name__)
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-v', '--verbose', help="Be verbose", action="store_const",
+                    dest="loglevel", const=logging.DEBUG)
+args = parser.parse_args()
+logging.basicConfig(level=args.loglevel if args.loglevel else logging.INFO)
+logger = logging.getLogger(__name__)
 
 pound = u'\u00A3'
 
@@ -46,6 +55,7 @@ animals.append(Animal("duck", {"covering": "feathers", "legs": 2}))
 
 
 def findAnimal(context):
+    logger.debug("Finding animal...")
     input_name = context['parameters']['answer']
     return [animal for animal in animals if animal.name == input_name][0]
 
@@ -62,10 +72,11 @@ def webhook():
     req = request.get_json(silent=True, force=True)
     context = getContext(req, "whatami")
 
-    print("Request:")
-    print(json.dumps(req, indent=4))
+    logger.debug("Request:")
+    logger.debug(json.dumps(req, indent=4))
 
     action = req.get("result").get("action")
+    logger.debug("Action = {}".format(action))
     animal = findAnimal(context) if action != "start" else None
 
     if action == "start":
