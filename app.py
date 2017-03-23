@@ -151,9 +151,11 @@ def processGuessAnswer(req, animal):
     if is_correct:
         sound = '<audio src="https://orsilus.com/test/whatami/{}.mp3" />'.format(guess)
         text = "<speak>You're right! I am a {}!{} <break time='1s'/> Do you want to play again?</speak>".format(guess, sound)
+        contextOut = [{"name":"gameover", "lifespan":1}]
     else:
         text = "No, I'm not a {} :(. Try again!".format(guess)
-    return makeSpeechResponse(text)    
+        contextOut = []
+    return makeSpeechResponse(text, contextOut)
 
 def processHint(req, animal):
     hint = animal.getHint()
