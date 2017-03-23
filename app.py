@@ -41,7 +41,7 @@ class Animal(object):
     def checkLegs(self, input_legs):
         return input_legs == self.properties['legs']
 
-    def finalGuess(self, input_guess):
+    def checkGuess(self, input_guess):
         return input_guess == self.name
 
 animals = []
@@ -80,6 +80,8 @@ def webhook():
         res = processCovering(req, animal)        
     elif action == "legs":
         res = processLegs(req, animal)
+    elif action == "guessAnswer":
+        res = processGuessAnswer(req, animal)        
     else:
         return
 
@@ -112,6 +114,15 @@ def processLegs(req, animal):
     else:
         text = "I do not have {} legs".format(legs)
     return makeSpeechResponse(text)
+
+def processGuessAnswer(req, animal):
+    guess = req.get("result").get("parameters").get("guess")
+    is_correct = animal.checkGuess(guess)      
+    if is_correct:
+        text = "You're right! I am a {}! Do you want to play again?".format(guess)
+    else:
+        text = "No, I'm not a {} :(. Try again!".format(guess)
+    return makeSpeechResponse(text)    
 
 def makeSpeechResponse(speech, contextOut=[]):
     return {
