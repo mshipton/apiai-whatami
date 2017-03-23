@@ -1,7 +1,7 @@
 {
-  "name": "API.AI webhook",
-  "description": "API.AI webhook",
-  "repository": "https://github.com/mshipton/apiai-webhook",
+  "name": "API.AI what am I?",
+  "description": "API.AI what am I?",
+  "repository": "https://github.com/mshipton/apiai-whatami",
   "logo": "http://xvir.github.io/img/apiai.png",
   "keywords": ["api.ai", "natural language"]
 }
