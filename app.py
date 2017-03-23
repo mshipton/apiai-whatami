@@ -45,6 +45,7 @@ class Animal(object):
         return input_guess == self.name
 
     def getHint(self):
+        logger.debug("Giving a random hint")
         return random.choice(self.properties['hints'])
 
 animals = []
@@ -102,7 +103,8 @@ def webhook():
     elif action == "hint":
         res = processHint(req, animal)
     else:
-        return
+        logger.warning("Unknown action")
+        return None
 
     res = json.dumps(res, indent=4)
     # print(res)
@@ -154,7 +156,8 @@ def processGuessAnswer(req, animal):
     return makeSpeechResponse(text)    
 
 def processHint(req, animal):
-    return animal.getHint()
+    hint = animal.getHint()
+    return makeSpeechResponse(hint) 
 
 def makeSpeechResponse(speech, contextOut=[]):
     return {
