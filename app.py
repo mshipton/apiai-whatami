@@ -56,48 +56,36 @@ with open("animals.json", "r") as f:
     animals = [Animal(key, value) for key, value in data.items()]
 
 def findAnimal(context):
-    logger.debug("Finding animal...")
-    input_name = context['parameters']['answer']
-    return [animal for animal in animals if animal.name == input_name][0]
-
+    try:
+        logger.debug("Finding animal...")
+        input_name = context['parameters']['answer']
+        # Yasir - this always returns a DOG!
+        return [animal for animal in animals if animal.name == input_name][0]
+    except:
+        return None
 
 def getContext(req, input_name):
     logger.debug("Getting context")
     for context in req['result']['contexts']:
         if context['name'] == input_name:
+            logger.debug("Context found! Returning context {}".format(input_name))
             return context
+    logger.warning("No context found, returning None context")
     return None
 
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
     req = request.get_json(silent=True, force=True)
-    context = getContext(req, "whatami")
-    logger.debug("Context received")
-
-    # logger.debug("Request:")
-    # logger.debug(json.dumps(req, indent=4))
 
     action = req.get("result").get("action")
     logger.debug("Action = {}".format(action))
-    animal = findAnimal(context) if action != "start" and action != "restart" else None
-    logger.debug("Animal = {}".format(animal))
 
-    if action == "start" or action == "restart":
-        res = processStart(req)
-    elif action == "covering":
-        res = processCovering(req, animal)
-    elif action == "guessPlace":
-        res = processGuessPlace(req, animal)                
-    elif action == "legs":
-        res = processLegs(req, animal)
-    elif action == "guessAnswer":
-        res = processGuessAnswer(req, animal)
-    elif action == "hint":
-        res = processHint(req, animal)
-    else:
-        logger.warning("Unknown action")
-        return None
+    context = getContext(req, "whatami")
+    logger.debug("Context received")
+
+
+    res = process_action(req, action, context)
     logger.debug("Fulfilled intents")
 
     res = json.dumps(res, indent=4)
@@ -108,14 +96,42 @@ def webhook():
     r.headers['Content-Type'] = 'application/json'
     return r
 
+
+def process_action(req, action, context):
+    animal = findAnimal(context)
+    if animal is None:
+        logger.debug("No animal found in context, getting new animal")
+        animal = random.choice(animals)
+    logger.debug("Animal = {}".format(animal))
+    contextOut = [{"name":"whatami", "lifespan":2, "parameters":{"answer": animal.name}}]
+
+    if action in ["start", "restart"]:
+        text = ["I'm am animal, guess what I am!"]
+        text = random.choice(text)
+        res = processStart(req, contextOut)
+    elif action == "covering":
+        res = processCovering(req, animal, contextOut)
+    elif action == "guessPlace":
+        res = processGuessPlace(req, animal, contextOut)                
+    elif action == "legs":
+        res = processLegs(req, animal, contextOut)
+    elif action == "guessAnswer":
+        res = processGuessAnswer(req, animal, contextOut)
+    elif action == "hint":
+        res = processHint(req, animal, contextOut)
+    else:
+        res = makeSpeechResponse("Unknown action", contextOut)
+        logger.warning("Unknown action")
+        return None
+    return res
+
 def processStart(req):
     text = "I'm am animal, guess what I am!"
     animal = random.choice(animals)
     logger.debug("Random animal chosen: {}".format(animal))
-    contextOut = [{"name":"whatami", "lifespan":3, "parameters":{"answer": animal.name}}]
     return makeSpeechResponse(text, contextOut)
 
-def processCovering(req, animal):
+def processCovering(req, animal, contextOut):
     logger.debug("Processing processCovering")
     covering = req.get("result").get("parameters").get("covering")
     logger.debug("Input covering = {}".format(covering))
@@ -127,9 +143,9 @@ def processCovering(req, animal):
             text = "You have to guess what I'm covered in"
         else:
             text = "I am not covered in " + covering
-    return makeSpeechResponse(text)
+    return makeSpeechResponse(text, contextOut)
 
-def processGuessPlace(req, animal):
+def processGuessPlace(req, animal, contextOut):
     logger.debug("Processing processGuessPlace")
     place = req.get("result").get("parameters").get("place")
     logger.debug("Input place = {}".format(place))
@@ -141,9 +157,9 @@ def processGuessPlace(req, animal):
             text = "You have to guess where I can be found"
         else:
             text = "No I don't"
-    return makeSpeechResponse(text)    
+    return makeSpeechResponse(text, contextOut)    
 
-def processLegs(req, animal):
+def processLegs(req, animal, contextOut):
     logger.debug("Processing processLegs")
     legs = req.get("result").get("parameters").get("legs")
     logger.debug("Input legs = {}".format(legs))
@@ -155,9 +171,9 @@ def processLegs(req, animal):
             text = "You have to guess how many legs I have"
         else:
             text = "I do not have {} legs".format(legs)
-    return makeSpeechResponse(text)
+    return makeSpeechResponse(text, contextOut)
 
-def processGuessAnswer(req, animal):
+def processGuessAnswer(req, animal, contextOut):
     logger.debug("Processing guessAnswer")
     guess = req.get("result").get("parameters").get("guess")
     logger.debug("Guess = {}".format(guess))
@@ -172,11 +188,11 @@ def processGuessAnswer(req, animal):
         contextOut = []
     return makeSpeechResponse(text, contextOut)
 
-def processHint(req, animal):
+def processHint(req, animal, contextOut):
     logger.debug("Grabbing a hint")
     hint = animal.getHint()
     logger.debug("Giving hint: {}".format(hint))
-    return makeSpeechResponse(hint) 
+    return makeSpeechResponse(hint, contextOut) 
 
 def makeSpeechResponse(speech, contextOut=[]):
     return {
