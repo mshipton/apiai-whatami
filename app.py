@@ -146,7 +146,7 @@ def processCovering(req, animal, contextOut):
     else:
         if len(covering) == 0:
             text = "No, I'm not"
-        elif text == "nothing":
+        elif text == "unset":
             text = "You have to guess what I'm covered in"
         else:
             text = "I am not covered in " + covering
@@ -162,7 +162,7 @@ def processGuessPlace(req, animal, contextOut):
     else:
         if len(place) == 0:
             text = "Take another guess"
-        elif place == "nowhere":
+        elif place == "unset":
             text = "You need to guess the place"
         else:
             text = "No I don't"
@@ -193,7 +193,7 @@ def processGuessAnswer(req, animal, contextOut):
         text = "<speak>You're right! I am a {}!{} <break time='1s'/> Do you want to play again?</speak>".format(guess, sound)
         contextOut = [{"name":"gameover", "lifespan":1}]
     else:
-        text = "No. Try again!".format(guess)
+        text = "No I'm not"
         contextOut = []
     return makeSpeechResponse(text, contextOut)
 
