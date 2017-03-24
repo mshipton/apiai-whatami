@@ -107,7 +107,7 @@ def process_action(req, action, context):
     if animal is None:
         logger.debug("No animal found in context, getting new animal")
         animal = random.choice(animals)
-    logger.debug("Animal = {}".format(animal))
+    logger.debug("Animal = {}".format(animal.name))
     contextOut = [{"name":"whatami", "lifespan":2, "parameters":{"answer": animal.name}}]
 
     if action in ["start", "restart"]:
