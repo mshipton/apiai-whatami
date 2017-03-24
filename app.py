@@ -146,7 +146,7 @@ def processCovering(req, animal, contextOut):
     else:
         if len(covering) == 0:
             text = "No, I'm not"
-        elif text = "nothing":
+        elif text == "nothing":
             text = "You have to guess what I'm covered in"
         else:
             text = "I am not covered in " + covering
