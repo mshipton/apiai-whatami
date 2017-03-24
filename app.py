@@ -125,18 +125,25 @@ def process_action(req, action, context):
         res = processGuessAnswer(req, animal, contextOut)
     elif action == "hint":
         res = processHint(req, animal, contextOut)
+    elif action == "playSound":
+        res = playSound(req, animal, contextOut)
     else:
         res = makeSpeechResponse("Unknown action", contextOut)
         logger.warning("Unknown action")
         return None
     return res
 
+def playSound(req, animal, contextOut):
+    sound = '<audio src="https://orsilus.com/test/whatami/{}.mp3" />'.format(animal.name)
+    text = "<speak>A {} goes {}</speak>".format(animal.name, sound)
+    return makeSpeechResponse(text, contextOut)
+
 def getRandomAnimal(lastAnimalName = None):
     return random.choice([animal for animal in animals if animal.name != lastAnimalName])
 
 def processStart(req, contextOut, action):
     if action == "start":
-        text = "I'm a farm animal, guess what I am! Ask me about my size, where I live, how many legs I have and what I'm covered in. If you get stuck jusk for a hint!"
+        text = "I'm a farm animal, guess what I am! Ask me about my size, where I live, how many legs I have and what I'm covered in. If you get stuck ask for a hint!"
     elif action == "restart":
         text = "I'm a farm animal, guess what I am!"
 
