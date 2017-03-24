@@ -1,0 +1,84 @@
+[
+    {
+        "dog": {
+            "covering": "hair",
+            "legs": 4,
+            "places": ["house", "inside", "farm"],
+            "food": ["meat"],
+            "hints": ["I am your best friend.", "I have a tail.", "I protect you."],
+            "size": "medium"
+        }
+    }, {
+        "duck": {
+            "covering": "feathers",
+            "legs": 2,
+            "places": ["outside", "farm", "pond"],
+            "hints": ["I like bread!", "I'm waterproof"],
+            "size": "small"
+        }
+    }, {
+        "cow": {
+            "covering": "hair",
+            "legs": 4,
+            "places": ["farm", "field", "shed", "barn", "outside"],
+            "hints": ["You can milk me"],
+            "size": "large"
+        }
+    }, {
+        "sheep": {
+            "covering": "wool",
+            "legs": 4,
+            "places": ["farm", "field", "shed", "barn", "outside"],
+            "hints": ["I useful for making jumpers"],
+            "size": "medium"
+        }
+    }, {
+        "pig": {
+            "covering": "skin",
+            "legs": 4,
+            "places": ["sty", "pig", "shed", "barn", "outside"],
+            "hints": ["I roll around in the mud", "I can't fly"],
+            "size": "medium"
+        }
+    }, {
+        "chicken": {
+            "covering": "feathers",
+            "legs": 2,
+            "places": ["coup", "pig", "shed", "barn", "outside"],
+            "hints": ["I lay eggs"],
+            "size": "small"
+        }
+    }, {
+        "horse": {
+            "covering": "hair",
+            "legs": 4,
+            "places": ["stable"],
+            "hints": ["You can ride me"],
+            "size": "large"
+        }
+    }, {
+        "goose": {
+            "covering": "featers",
+            "legs": 2,
+            "places": ["pond"],
+            "hints": ["Legend has it that I can lay golden eggs"],
+            "size": "medium"
+        }
+    }, {
+        "cat": {
+            "covering": "hair",
+            "legs": 4,
+            "places": ["house"],
+            "hints": ["I like old ladies", "I don't like dogs much"],
+            "size": "medium"
+        }
+    }, {
+        "donkey": {
+            "covering": "hair",
+            "legs": 4,
+            "places": ["stable"],
+            "hints": ["You can ride me at the beach"],
+            "size": "large"
+        }
+    }
+]
