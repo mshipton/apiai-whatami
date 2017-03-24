@@ -73,12 +73,12 @@
             "size": "medium"
         }
     }, {
-        "donkey": {
+        "mouse": {
             "covering": "hair",
             "legs": 4,
-            "places": ["stable", "barn"],
-            "hints": ["You can ride me at the beach"],
-            "size": "large"
+            "places": ["house", "inside", "outside", "barn"],
+            "hints": ["I like cheese"],
+            "size": "tiny"
         }
     }
 ]
