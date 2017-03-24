@@ -55,14 +55,16 @@ class Animal(object):
 import json
 
 with open("animals.json", "r") as f:
-    data = json.load(f)[0]
-    animals = [Animal(key, value) for key, value in data.items()]
+    data = json.load(f)
+    animals = []
+    for row in data:
+        for key, value in row.items():
+            animals.append(Animal(key, value))
 
 def findAnimal(context):
     try:
         logger.debug("Finding animal...")
         input_name = context['parameters']['answer']
-        # Yasir - this always returns a DOG!
         return [animal for animal in animals if animal.name == input_name][0]
     except:
         return None
