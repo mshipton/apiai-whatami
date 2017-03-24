@@ -106,8 +106,6 @@ def process_action(req, action, context):
     contextOut = [{"name":"whatami", "lifespan":2, "parameters":{"answer": animal.name}}]
 
     if action in ["start", "restart"]:
-        text = ["I'm am animal, guess what I am!"]
-        text = random.choice(text)
         res = processStart(req, contextOut)
     elif action == "covering":
         res = processCovering(req, animal, contextOut)
@@ -125,10 +123,9 @@ def process_action(req, action, context):
         return None
     return res
 
-def processStart(req):
-    text = "I'm am animal, guess what I am!"
-    animal = random.choice(animals)
-    logger.debug("Random animal chosen: {}".format(animal))
+def processStart(req, contextOut):
+    text = ["I'm am animal, guess what I am!"]
+    text = random.choice(text)
     return makeSpeechResponse(text, contextOut)
 
 def processCovering(req, animal, contextOut):
