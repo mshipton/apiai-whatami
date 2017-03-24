@@ -52,7 +52,7 @@
         "horse": {
             "covering": "hair",
             "legs": 4,
-            "places": ["stable"],
+            "places": ["stable", "barn"],
             "hints": ["You can ride me"],
             "size": "large"
         }
@@ -76,7 +76,7 @@
         "donkey": {
             "covering": "hair",
             "legs": 4,
-            "places": ["stable"],
+            "places": ["stable", "barn"],
             "hints": ["You can ride me at the beach"],
             "size": "large"
         }

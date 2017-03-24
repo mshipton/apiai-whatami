@@ -105,7 +105,7 @@ def webhook():
 def process_action(req, action, context):
     animal = findAnimal(context)
     if animal is None:
-        logger.debug("No animal found in context, getting new animal")
+        logger.debug("No animal found in context, getting new animal. Action {}").format(action)
         animal = random.choice(animals)
     logger.debug("Animal = {}".format(animal.name))
 
