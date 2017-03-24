@@ -5,49 +5,56 @@
             "legs": 4,
             "places": ["house", "inside", "farm"],
             "food": ["meat"],
-            "hints": ["I am your best friend.", "I have a tail.", "I protect you."]
+            "hints": ["I am your best friend.", "I have a tail.", "I protect you."],
+            "size": "medium"
         }
     }, {
         "duck": {
             "covering": "feathers",
             "legs": 2,
             "places": ["outside", "farm", "pond"],
-            "hints": ["I like bread!", "I'm waterproof"]            
+            "hints": ["I like bread!", "I'm waterproof"],
+            "size": "small"
         }
     }, {
         "spider": {
             "covering": "hair",
             "legs": 8,
             "places": ["house", "inside", "outside", "jungle", "desert"],
-            "hints": ["I have a lot of eyes!"]            
+            "hints": ["I have a lot of eyes!"],
+            "size": "tiny"
         }
     }, {
         "cow": {
             "covering": "hair",
             "legs": 4,
             "places": ["farm", "field", "shed", "barn"],
-            "hints": ["You can milk me"]
+            "hints": ["You can milk me"],
+            "size": "large"
         }
     }, {
         "sheep": {
             "covering": "wool",
             "legs": 4,
             "places": ["farm", "field", "shed", "barn"],
-            "hints": ["I useful for making jumpers"]
+            "hints": ["I useful for making jumpers"],
+            "size": "medium"
         }
     }, {
         "lion": {
             "covering": "fur",
             "legs": 4,
             "places": ["africa", "plains", "forest"],
-            "hints": ["I'm king of the beasts"]
+            "hints": ["I'm king of the beasts"],
+            "size": "large"
         }
     }, {
         "shark": {
             "covering": "skin",
             "legs": 0,
             "places": ["sea", "underwater", "ocean"],
-            "hints": ["Don't go into the water when I'm around"]
+            "hints": ["Don't go into the water when I'm around"],
+            "size": "large"
         }
     }
 ]

@@ -49,6 +49,9 @@ class Animal(object):
     def getHint(self):
         return random.choice(self.properties['hints'])
 
+    def getSize(self):
+        return self.properties['size']
+
 import json
 
 with open("animals.json", "r") as f:
@@ -113,6 +116,8 @@ def process_action(req, action, context):
         res = processGuessPlace(req, animal, contextOut)                
     elif action == "legs":
         res = processLegs(req, animal, contextOut)
+    elif action == "guessSize":
+        res = processSize(req, animal, contextOut)
     elif action == "guessAnswer":
         res = processGuessAnswer(req, animal, contextOut)
     elif action == "hint":
@@ -181,15 +186,22 @@ def processGuessAnswer(req, animal, contextOut):
         text = "<speak>You're right! I am a {}!{} <break time='1s'/> Do you want to play again?</speak>".format(guess, sound)
         contextOut = [{"name":"gameover", "lifespan":1}]
     else:
-        text = "No, I'm not a {} :(. Try again!".format(guess)
+        text = "No. Try again!".format(guess)
         contextOut = []
     return makeSpeechResponse(text, contextOut)
 
+def processSize(req, animal, contextOut):
+    logger.debug("Grabbing size")
+    size = animal.getSize()
+    logger.debug("Size = {}".format(size))
+    text = "I am {}".format(size)
+    return makeSpeechResponse(text, contextOut) 
+
 def processHint(req, animal, contextOut):
     logger.debug("Grabbing a hint")
-    hint = animal.getHint()
-    logger.debug("Giving hint: {}".format(hint))
-    return makeSpeechResponse(hint, contextOut) 
+    text = animal.getHint()
+    logger.debug("Giving hint: {}".format(text))
+    return makeSpeechResponse(text, contextOut) 
 
 def makeSpeechResponse(speech, contextOut=[]):
     return {
