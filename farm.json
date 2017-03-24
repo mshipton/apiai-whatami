@@ -29,7 +29,7 @@
             "covering": "wool",
             "legs": 4,
             "places": ["field", "barn", "outside"],
-            "hints": ["I useful for making jumpers"],
+            "hints": ["I'm useful for making jumpers"],
             "size": "medium"
         }
     }, {

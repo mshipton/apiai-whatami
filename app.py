@@ -132,7 +132,7 @@ def process_action(req, action, context):
     return res
 
 def processStart(req, contextOut):
-    text = ["I'm farm animal, guess what I am!"]
+    text = ["I'm a farm animal, guess what I am!"]
     text = random.choice(text)
     return makeSpeechResponse(text, contextOut)
 
