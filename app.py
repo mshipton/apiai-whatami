@@ -159,7 +159,7 @@ def processGuessPlace(req, animal, contextOut):
         text = "Yes I do"
     else:
         if len(place) == 0:
-            text = "You have to guess where I can be found"
+            text = "Take another guess"
         else:
             text = "No I don't"
     return makeSpeechResponse(text, contextOut)    
