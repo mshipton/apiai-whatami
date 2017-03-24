@@ -198,7 +198,7 @@ def processGuessAnswer(req, animal, contextOut):
         contextOut = [{"name":"gameover", "lifespan":1}, {"name":"whatami", "lifespan":2, "parameters":{"answer": newAnimal.name}}]
     else:
         text = "No I'm not"
-        contextOut = []
+
     return makeSpeechResponse(text, contextOut)
 
 def processSize(req, animal, contextOut):
