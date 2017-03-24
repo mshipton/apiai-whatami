@@ -28,7 +28,7 @@
         "cow": {
             "covering": "hair",
             "legs": 4,
-            "places": ["farm", "field", "shed", "barn"],
+            "places": ["farm", "field", "shed", "barn", "outside"],
             "hints": ["You can milk me"],
             "size": "large"
         }
@@ -36,7 +36,7 @@
         "sheep": {
             "covering": "wool",
             "legs": 4,
-            "places": ["farm", "field", "shed", "barn"],
+            "places": ["farm", "field", "shed", "barn", "outside"],
             "hints": ["I useful for making jumpers"],
             "size": "medium"
         }
@@ -44,7 +44,7 @@
         "lion": {
             "covering": "fur",
             "legs": 4,
-            "places": ["africa", "plains", "forest"],
+            "places": ["africa", "plains", "forest", "outside"],
             "hints": ["I'm king of the beasts"],
             "size": "large"
         }
@@ -52,7 +52,7 @@
         "shark": {
             "covering": "skin",
             "legs": 0,
-            "places": ["sea", "underwater", "ocean"],
+            "places": ["sea", "underwater", "ocean", "outside"],
             "hints": ["Don't go into the water when I'm around"],
             "size": "large"
         }
