@@ -69,6 +69,13 @@ def findAnimal(context):
     except:
         return None
 
+def getAnimal(animalName):
+    try:
+        logger.debug("Getting animal...")
+        return [animal for animal in animals if animal.name == animalName][0]
+    except:
+        return None        
+
 def getContext(req, input_name):
     logger.debug("Getting context")
     for context in req['result']['contexts']:
@@ -126,17 +133,29 @@ def process_action(req, action, context):
     elif action == "hint":
         res = processHint(req, animal, contextOut)
     elif action == "playSound":
-        res = playSound(req, animal, contextOut)
+        res = playSound(req, contextOut)
     else:
         res = makeSpeechResponse("Unknown action", contextOut)
         logger.warning("Unknown action")
         return None
     return res
 
-def playSound(req, animal, contextOut):
-    sound = '<audio src="https://orsilus.com/test/whatami/{}.mp3" />'.format(animal.name)
-    text = "<speak>A {} goes {}</speak>".format(animal.name, sound)
+def playSound(req, contextOut):
+    animalName = req.get("result").get("parameters").get("animal")
+
+    if animalName == None or len(animalName) == 0:
+        return makeSpeechResponse("Sorry, I don't know the noise that makes", contextOut)
+    else:
+        animal = getAnimal(animalName)
+
+        if animal == None:
+            return makeSpeechResponse("Sorry, I don't know the noise that makes", contextOut)
+
+        sound = '<audio src="https://orsilus.com/test/whatami/{}.mp3" />'.format(animal.name)
+        text = "<speak>A {} goes {}</speak>".format(animal.name, sound)
+
     return makeSpeechResponse(text, contextOut)
+    
 
 def getRandomAnimal(lastAnimalName = None):
     return random.choice([animal for animal in animals if animal.name != lastAnimalName])
