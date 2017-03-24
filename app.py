@@ -106,7 +106,7 @@ def process_action(req, action, context):
     animal = findAnimal(context)
     if animal is None:
         logger.debug("No animal found in context, getting new animal. Action: " + action) 
-        animal = random.choice(animals)
+        animal = getRandomAnimal()
     logger.debug("Animal = {}".format(animal.name))
 
     contextOut = [{"name":"whatami", "lifespan":2, "parameters":{"answer": animal.name}}]
@@ -131,6 +131,9 @@ def process_action(req, action, context):
         return None
     return res
 
+def getRandomAnimal(lastAnimalName = None):
+    return random.choice([animal for animal in animals if animal.name != lastAnimalName])
+
 def processStart(req, contextOut):
     text = ["I'm a farm animal, guess what I am!"]
     text = random.choice(text)
@@ -146,7 +149,7 @@ def processCovering(req, animal, contextOut):
     else:
         if len(covering) == 0:
             text = "No, I'm not"
-        elif text == "unset":
+        elif covering == "unset":
             text = "You have to guess what I'm covered in"
         else:
             text = "I am not covered in " + covering
@@ -191,7 +194,8 @@ def processGuessAnswer(req, animal, contextOut):
     if is_correct:
         sound = '<audio src="https://orsilus.com/test/whatami/{}.mp3" />'.format(guess)
         text = "<speak>You're right! I am a {}!{} <break time='1s'/> Do you want to play again?</speak>".format(guess, sound)
-        contextOut = [{"name":"gameover", "lifespan":1}]
+        newAnimal = getRandomAnimal(animal.name)
+        contextOut = [{"name":"gameover", "lifespan":1}, {"name":"whatami", "lifespan":2, "parameters":{"answer": newAnimal.name}}]
     else:
         text = "No I'm not"
         contextOut = []
