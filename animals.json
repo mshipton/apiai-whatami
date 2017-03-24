@@ -44,7 +44,7 @@
         "lion": {
             "covering": "fur",
             "legs": 4,
-            "places": ["africa", "plains", "forest", "outside"],
+            "places": ["africa", "plains", "outside"],
             "hints": ["I'm king of the beasts"],
             "size": "large"
         }

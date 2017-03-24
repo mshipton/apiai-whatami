@@ -54,7 +54,7 @@ class Animal(object):
 
 import json
 
-with open("animals.json", "r") as f:
+with open("farm.json", "r") as f:
     data = json.load(f)
     animals = []
     for row in data:
@@ -108,6 +108,7 @@ def process_action(req, action, context):
         logger.debug("No animal found in context, getting new animal")
         animal = random.choice(animals)
     logger.debug("Animal = {}".format(animal.name))
+
     contextOut = [{"name":"whatami", "lifespan":2, "parameters":{"answer": animal.name}}]
 
     if action in ["start", "restart"]:
