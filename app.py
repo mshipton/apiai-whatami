@@ -112,7 +112,7 @@ def process_action(req, action, context):
     contextOut = [{"name":"whatami", "lifespan":2, "parameters":{"answer": animal.name}}]
 
     if action in ["start", "restart"]:
-        res = processStart(req, contextOut)
+        res = processStart(req, contextOut, action)
     elif action == "covering":
         res = processCovering(req, animal, contextOut)
     elif action == "guessPlace":
@@ -134,9 +134,12 @@ def process_action(req, action, context):
 def getRandomAnimal(lastAnimalName = None):
     return random.choice([animal for animal in animals if animal.name != lastAnimalName])
 
-def processStart(req, contextOut):
-    text = ["I'm a farm animal, guess what I am!"]
-    text = random.choice(text)
+def processStart(req, contextOut, action):
+    if action == "start":
+        text = "I'm a farm animal, guess what I am! Ask me about my size, where I live, how many legs I have and what I'm covered in. If you get stuck jusk for a hint!"
+    elif action == "restart":
+        text = "I'm a farm animal, guess what I am!"
+
     return makeSpeechResponse(text, contextOut)
 
 def processCovering(req, animal, contextOut):
