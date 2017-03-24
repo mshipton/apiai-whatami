@@ -160,6 +160,8 @@ def processGuessPlace(req, animal, contextOut):
     else:
         if len(place) == 0:
             text = "Take another guess"
+        elif place == "nowhere":
+            text = "You need to guess the place"
         else:
             text = "No I don't"
     return makeSpeechResponse(text, contextOut)    
@@ -170,12 +172,12 @@ def processLegs(req, animal, contextOut):
     logger.debug("Input legs = {}".format(legs))
     is_correct = animal.checkLegs(int(legs)) if len(legs) > 0 else False
     if is_correct:
-        text = "I do have {} legs".format(legs)
+        text = "Yes, I do have {} legs".format(legs)
     else:
         if len(legs) == 0:
             text = "You have to guess how many legs I have"
         else:
-            text = "I do not have {} legs".format(legs)
+            text = "No, I do not have {} legs".format(legs)
     return makeSpeechResponse(text, contextOut)
 
 def processGuessAnswer(req, animal, contextOut):
